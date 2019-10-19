@@ -1,13 +1,16 @@
 import React from 'react';
 import Card from './game/Card';
+import Score from './game/ScoreBoard';
 
 const words = ['Frodo', 'Aramis', 'Piotr Ptak', 'Systemy rozproszone'];
 class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      status: 'wait',
+      score: [0, 0],
       round: 1,
-      turn: 1,
+      turn: 0,
       words: words.map((word) => {
         return { 
           text: word,
@@ -19,6 +22,25 @@ class Game extends React.Component {
     this.onOkClick = this.onOkClick.bind(this);
     this.onSkipClick = this.onSkipClick.bind(this);
     this.nextWordIndex = this.nextWordIndex.bind(this);
+    this.onTurnsEnd = this.onTurnsEnd.bind(this);
+    this.onStartClick = this.onStartClick.bind(this);
+  }
+
+  onStartClick() {
+    this.setState((state) => {
+      return {
+        status: 'play'
+      }
+    })
+  }
+
+  onTurnsEnd() {
+    this.setState((state) => {
+      return {
+        turn: state.turn ? 0 : 1,
+        status: 'wait'
+      };
+    })
   }
 
   nextWordIndex(state) {
@@ -50,8 +72,11 @@ class Game extends React.Component {
           return word;
         }
       });
+      const score = state.score;
+      score[state.turn] += 1;
       return {
         words: words,
+        score: score,
         currentIndex: this.nextWordIndex(state)
       };
     })
@@ -68,11 +93,16 @@ class Game extends React.Component {
   render () {
     return(
       <div>
-        <h2>Gra</h2>
+        <h2>Drużyna {this.state.turn + 1}</h2>
+        <Score score={this.state.score}/>
+        {this.state.status === 'play' &&
         <Card 
           word={this.state.words[this.state.currentIndex]}
           onOkClick={this.onOkClick}
-          onSkipClick={this.onSkipClick}/>
+          onSkipClick={this.onSkipClick}
+          onTurnsEnd={this.onTurnsEnd}/>}
+        {this.state.status !== 'play' &&
+        <button onClick={this.onStartClick}>Start</button>}
       </div>
     );
   }

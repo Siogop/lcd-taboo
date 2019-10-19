@@ -5,7 +5,7 @@ class Card extends React.Component {
   render () {
     return(
       <div>
-        <Timer onTimesUp={()=>{alert('Times up')}}/>
+        <Timer onTimesUp={()=>{this.props.onTurnsEnd();}}/>
         <div>
           {this.props.word.text}
         </div>
