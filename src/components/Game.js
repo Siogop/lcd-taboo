@@ -17,7 +17,8 @@ class Game extends React.Component {
           guessed: false
          };
     }),
-      currentIndex: 0
+      currentIndex: 0,
+      startIndex: 0
     }
     this.onOkClick = this.onOkClick.bind(this);
     this.onSkipClick = this.onSkipClick.bind(this);
@@ -29,35 +30,50 @@ class Game extends React.Component {
   onStartClick() {
     this.setState((state) => {
       return {
-        status: 'play'
+        status: 'play',
+        startIndex: state.currentIndex
       }
     })
   }
 
   onTurnsEnd() {
     this.setState((state) => {
-      return {
+      let newState = {
         turn: state.turn ? 0 : 1,
         status: 'wait'
-      };
-    })
+      }
+      if (state.currentIndex === -1) {
+        newState.round = state.round + 1;
+        newState.words = state.words.map((word) => {
+          return { 
+            text: word.text,
+            guessed: false
+           };
+        })
+        newState.currentIndex = 0;
+      }
+      return newState;
+    });
   }
 
   nextWordIndex(state) {
-    let newIndex = 0;
+    let newIndex = -1;
     for (let i = state.currentIndex + 1; i < state.words.length; i += 1) {
       if (!state.words[i].guessed) {
         newIndex = i;
         break;
       }
     }
-    if (!newIndex) {
+    if (newIndex === -1) {
       for (let i = 0; i < state.currentIndex; i += 1) {
         if (!state.words[i].guessed) {
           newIndex = i;
           break;
         }
       }
+    }
+    if (newIndex === -1 || newIndex === state.startIndex) {
+      this.onTurnsEnd();
     }
     return newIndex;
   }
@@ -93,11 +109,13 @@ class Game extends React.Component {
   render () {
     return(
       <div>
-        <h2>Drużyna {this.state.turn + 1}</h2>
+        <h2>Runda {this.state.round}</h2>
+        <h3>Drużyna {this.state.turn + 1}</h3>
         <Score score={this.state.score}/>
-        {this.state.status === 'play' &&
+        {this.state.status === 'play' && this.state.currentIndex >= 0 &&
         <Card 
           word={this.state.words[this.state.currentIndex]}
+          round={this.state.round}
           onOkClick={this.onOkClick}
           onSkipClick={this.onSkipClick}
           onTurnsEnd={this.onTurnsEnd}/>}
