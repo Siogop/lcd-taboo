@@ -1,11 +1,16 @@
 import React from 'react';
+import Timer from './Timer';
 
 class Card extends React.Component {
   render () {
     return(
       <div>
-        <button onClick={this.newGameClick}>OK</button>
-        <button onClick={this.settingsClick}>Pas</button>
+        <Timer onTimesUp={()=>{alert('Times up')}}/>
+        <div>
+          {this.props.word.text}
+        </div>
+        <button onClick={() => {this.props.onOkClick();}}>OK</button>
+        <button onClick={() => {this.props.onSkipClick();}}>Pas</button>
       </div>
     );
   }
