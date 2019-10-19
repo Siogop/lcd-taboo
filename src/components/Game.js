@@ -44,6 +44,7 @@ class Game extends React.Component {
       }
       if (state.currentIndex === -1) {
         newState.round = state.round + 1;
+        newState.status = newState.round > 3 ? 'end' : 'wait';
         newState.words = state.words.map((word) => {
           return { 
             text: word.text,
@@ -119,8 +120,14 @@ class Game extends React.Component {
           onOkClick={this.onOkClick}
           onSkipClick={this.onSkipClick}
           onTurnsEnd={this.onTurnsEnd}/>}
-        {this.state.status !== 'play' &&
-        <button onClick={this.onStartClick}>Start</button>}
+        <div>
+          {this.state.status === 'wait' &&
+          <button onClick={this.onStartClick}>Start</button>}
+        </div>
+        <div>
+          {this.state.status !== 'play' && 
+          <button onClick={() => {this.props.onMainMenuClick()}}>Menu główne</button>}
+        </div>
       </div>
     );
   }

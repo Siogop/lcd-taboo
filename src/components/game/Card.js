@@ -4,7 +4,7 @@ class Card extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 10
+      time: 30
     };
     this.timesUp = this.timesUp.bind(this);
     this.onSkipClick = this.onSkipClick.bind(this);

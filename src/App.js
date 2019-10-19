@@ -33,11 +33,9 @@ class App extends React.Component {
           {status === 'menu' && <MainMenu 
             onNewGameClick={this.onNewGameClick}
             onSettingsClick={this.onSettingsClick} />}
-          {status === 'game' && <Game/>}
+          {status === 'game' && <Game
+            onMainMenuClick={this.onMainMenuClick}/>}
           {status === 'settings' && <Settings/>}
-        </div>
-        <div>
-        {status !== 'menu' && <button onClick={this.onMainMenuClick}>Menu główne</button>}
         </div>
       </div>
     );
