@@ -5,7 +5,7 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 import Tile from '../Tile/Tile';
 import Row from '../Row/Row';
 
-const MAX_TIMER = 100;
+const MAX_TIMER = 30;
 
 class Card extends React.Component {
   constructor(props) {
