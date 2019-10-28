@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './CustomButton.scss';
 
 function getButtonClass(status) {
   switch (status) {
@@ -23,7 +24,7 @@ export default function CustomButton({ handleClick, text, status }) {
       tabIndex={0}
       onClick={handleClick}
       onKeyPress={handleClick}
-      className={`nes-btn ${getButtonClass(status)}`}
+      className={`custom-button nes-btn ${getButtonClass(status)}`}
     >
       {text}
     </div>

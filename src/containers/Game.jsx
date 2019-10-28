@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from './game/Card';
-import Score from './game/ScoreBoard';
-import CustomButton from './CustomButton';
+import Card from './Card';
+import Score from './ScoreBoard';
+import CustomButton from '../components/CustomButton/CustomButton';
 import WordsPackage from '../resources/WordsPackages';
 
 function getRandom(arr, number) {
@@ -146,13 +146,9 @@ class Game extends React.Component {
       round, score, words, status, turn, currentIndex,
     } = this.state;
     const { onMainMenuClick } = this.props;
-    return (
-      <div>
-        <h2>{`Runda ${round}`}</h2>
-        <h3>{`Drużyna ${turn + 1}`}</h3>
-        <Score score={score} />
-        {status === 'play' && currentIndex >= 0
-        && (
+
+    switch (status) {
+      case 'play': return (
         <Card
           word={words[currentIndex]}
           round={round}
@@ -160,17 +156,20 @@ class Game extends React.Component {
           onSkipClick={this.onSkipClick}
           onTurnsEnd={this.onTurnsEnd}
         />
-        )}
-        <div>
-          {status === 'wait'
-          && <CustomButton handleClick={this.onStartClick} status="primary" text="Start" />}
-        </div>
-        <div>
-          {status !== 'play'
-          && <CustomButton handleClick={() => { onMainMenuClick(); }} status="warning" text="Menu główne" />}
-        </div>
-      </div>
-    );
+      );
+      case 'wait': return (
+        <>
+          <Score round={round} turn={turn} score={score} />
+          <CustomButton handleClick={this.onStartClick} status="primary" text="Start" />
+        </>
+      );
+      default: return (
+        <>
+          <Score round={round} turn={turn} score={score} />
+          <CustomButton handleClick={() => { onMainMenuClick(); }} status="warning" text="Menu główne" />
+        </>
+      );
+    }
   }
 }
 

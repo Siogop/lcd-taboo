@@ -1,8 +1,7 @@
 import React from 'react';
-import MainMenu from './components/MainMenu';
-import Settings from './components/Settings';
-import Game from './components/Game';
-import './App.css';
+import MainMenu from './containers/MainMenu';
+import Settings from './containers/Settings';
+import Game from './containers/Game';
 
 class App extends React.Component {
   constructor(props) {

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CustomButton from '../CustomButton';
-import ProgressBar from '../ProgressBar/ProgressBar';
-import Tile from '../Tile/Tile';
-import Row from '../Row/Row';
+import CustomButton from '../components/CustomButton/CustomButton';
+import ProgressBar from '../components/ProgressBar/ProgressBar';
+import Tile from '../components/Tile/Tile';
+import Row from '../components/Row/Row';
 
 const MAX_TIMER = 30;
 

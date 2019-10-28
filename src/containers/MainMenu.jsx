@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CustomButton from './CustomButton';
+import CustomButton from '../components/CustomButton/CustomButton';
 
 class MainMenu extends React.Component {
   constructor(props) {
