@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import CustomButton from '../CustomButton';
 
 class Card extends React.Component {
   constructor(props) {
@@ -22,7 +24,8 @@ class Card extends React.Component {
   }
 
   onSkipClick() {
-    if (this.props.round === 1) {
+    const { round, onSkipClick } = this.props;
+    if (round === 1) {
       this.setState((state) => {
         if (state.time <= 5) {
           this.timesUp();
@@ -32,11 +35,12 @@ class Card extends React.Component {
         };
       });
     }
-    this.props.onSkipClick();
+    onSkipClick();
   }
 
   timesUp() {
-    this.props.onTurnsEnd();
+    const { onTurnsEnd } = this.props;
+    onTurnsEnd();
   }
 
   tick() {
@@ -49,19 +53,32 @@ class Card extends React.Component {
   }
 
   render() {
+    const { time, word, onOkClick } = this.props;
     return (
       <div>
         <div>
-          <p>{this.state.time}</p>
+          <p>{time}</p>
         </div>
         <div>
-          {this.props.word.text}
+          {word.text}
         </div>
-        <button onClick={() => { this.props.onOkClick(); }}>OK</button>
-        <button onClick={this.onSkipClick}>Pas</button>
+        <CustomButton handleClick={() => { onOkClick(); }} text="OK" />
+        <CustomButton handleClick={this.onSkipClick} text="Pas" />
       </div>
     );
   }
 }
+
+Card.propTypes = {
+  time: PropTypes.number.isRequired,
+  word: PropTypes.shape({
+    text: PropTypes.string,
+    guessed: PropTypes.bool,
+  }).isRequired,
+  onOkClick: PropTypes.func.isRequired,
+  round: PropTypes.number.isRequired,
+  onSkipClick: PropTypes.func.isRequired,
+  onTurnsEnd: PropTypes.func.isRequired,
+};
 
 export default Card;
