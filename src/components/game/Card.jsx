@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CustomButton from '../CustomButton';
+import ProgressBar from '../ProgressBar/ProgressBar';
+import Tile from '../Tile/Tile';
+import Row from '../Row/Row';
+
+const MAX_TIMER = 30;
 
 class Card extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 30,
+      time: MAX_TIMER,
     };
     this.timesUp = this.timesUp.bind(this);
     this.onSkipClick = this.onSkipClick.bind(this);
@@ -57,14 +62,12 @@ class Card extends React.Component {
     const { time } = this.state;
     return (
       <div>
-        <div>
-          <p>{time}</p>
-        </div>
-        <div>
-          {word.text}
-        </div>
-        <CustomButton handleClick={() => { onOkClick(); }} status="success" text="OK" />
-        <CustomButton handleClick={this.onSkipClick} status="error" text="Pas" />
+        <Tile text={word.text} />
+        <Row>
+          <CustomButton handleClick={() => { onOkClick(); }} status="success" text="OK" />
+          <CustomButton handleClick={this.onSkipClick} status="error" text="Pas" />
+        </Row>
+        <ProgressBar value={time} maxValue={MAX_TIMER} />
       </div>
     );
   }

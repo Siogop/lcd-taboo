@@ -18,16 +18,14 @@ function getButtonClass(status) {
 
 export default function CustomButton({ handleClick, text, status }) {
   return (
-    <div>
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={handleClick}
-        onKeyPress={handleClick}
-        className={`nes-btn ${getButtonClass(status)}`}
-      >
-        {text}
-      </div>
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={handleClick}
+      onKeyPress={handleClick}
+      className={`nes-btn ${getButtonClass(status)}`}
+    >
+      {text}
     </div>
   );
 }

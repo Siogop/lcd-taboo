@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
 
+* {
+  box-sizing: border-box;;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
 html {
   font-family: 'Press Start 2P';
+}
+
+.App {
+  max-width: 95%;
+  margin: 0 auto;
 }
