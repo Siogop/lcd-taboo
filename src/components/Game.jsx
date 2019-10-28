@@ -3,8 +3,46 @@ import PropTypes from 'prop-types';
 import Card from './game/Card';
 import Score from './game/ScoreBoard';
 import CustomButton from './CustomButton';
+import WordsPackage from '../resources/WordsPackages';
 
-const wordsArray = ['Frodo', 'Aramis', 'Piotr Ptak', 'Systemy rozproszone'];
+function getRandom(arr, number) {
+  let n = number;
+  const result = new Array(n);
+  let len = arr.length;
+  const taken = new Array(len);
+  if (n > len) { throw new RangeError('getRandom: more elements taken than available'); }
+  while (n) {
+    n -= 1;
+    const x = Math.floor(Math.random() * len);
+    result[n] = arr[x in taken ? taken[x] : x];
+    len -= 1;
+    taken[x] = len in taken ? taken[len] : len;
+  }
+  return result;
+}
+
+function shuffle(oldArray) {
+  let currentIndex = oldArray.length;
+  let temporaryValue;
+  let randomIndex;
+  const array = oldArray;
+
+  // While there remain elements to shuffle...
+  while (currentIndex !== 0) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+// const wordsArray = ['Frodo', 'Aramis', 'Piotr Ptak', 'Systemy rozproszone'];
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -13,12 +51,12 @@ class Game extends React.Component {
       score: [0, 0],
       round: 1,
       turn: 0,
-      words: wordsArray.map((word) => ({
+      words: getRandom(WordsPackage.test, 4).map((word) => ({
         text: word,
         guessed: false,
       })),
       currentIndex: 0,
-      // startIndex: 0,
+      startIndex: 0,
     };
     this.onOkClick = this.onOkClick.bind(this);
     this.onSkipClick = this.onSkipClick.bind(this);
@@ -28,10 +66,10 @@ class Game extends React.Component {
   }
 
   onStartClick() {
-    this.setState({
+    this.setState((state) => ({
       status: 'play',
-      // startIndex: state.currentIndex,
-    });
+      startIndex: state.currentIndex,
+    }));
   }
 
   onTurnsEnd() {
@@ -43,11 +81,13 @@ class Game extends React.Component {
       if (state.currentIndex === -1) {
         newState.round = state.round + 1;
         newState.status = newState.round > 3 ? 'end' : 'wait';
-        newState.words = state.words.map((word) => ({
+        newState.words = shuffle(state.words).map((word) => ({
           text: word.text,
           guessed: false,
         }));
         newState.currentIndex = 0;
+      } else {
+        newState.startIndex = state.currentIndex;
       }
       return newState;
     });
