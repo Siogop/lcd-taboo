@@ -23,7 +23,7 @@ export default function ProgressBar({ value, maxValue }) {
   return (
     <div className="progress__wrapper">
       <progress
-        className={`nes-progress ${getProgressColor(value)} progress__bar`}
+        className={`nes-progress ${getProgressColor(value, maxValue)} progress__bar`}
         value={value}
         max={maxValue}
       />
