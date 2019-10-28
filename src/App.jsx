@@ -49,7 +49,7 @@ class App extends React.Component {
           )}
           {status === 'settings' && <Settings />}
         </div>
-        <footer/>
+        <footer />
       </div>
     );
   }

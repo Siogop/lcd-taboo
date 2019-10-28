@@ -1,22 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import './ProgressBar.scss';
 
 function getProgressColor(value, maxValue) {
   const percentage = (value / maxValue) * 100;
   if (percentage <= 20) {
-    return "is-error";
+    return 'is-error';
   }
   if (percentage <= 40) {
-    return "is-warning";
+    return 'is-warning';
   }
   if (percentage <= 60) {
-    return "is-success";
+    return 'is-success';
   }
   if (percentage <= 80) {
-    return "is-primary";
+    return 'is-primary';
   }
-  return "";
+  return '';
 }
 
 export default function ProgressBar({ value, maxValue }) {
@@ -36,10 +36,10 @@ export default function ProgressBar({ value, maxValue }) {
 
 ProgressBar.propTypes = {
   value: PropTypes.number,
-  maxValue: PropTypes.number
+  maxValue: PropTypes.number,
 };
 
 ProgressBar.defaultProps = {
   value: 0,
-  maxValue: 100
+  maxValue: 100,
 };
