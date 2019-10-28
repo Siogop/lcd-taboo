@@ -4,7 +4,7 @@ class Card extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 30
+      time: 30,
     };
     this.timesUp = this.timesUp.bind(this);
     this.onSkipClick = this.onSkipClick.bind(this);
@@ -13,24 +13,12 @@ class Card extends React.Component {
   componentDidMount() {
     this.timerID = setInterval(
       () => this.tick(),
-      1000
+      1000,
     );
   }
 
   componentWillUnmount() {
     clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState((state) => {
-      if (state.time <= 1) {
-        this.timesUp();
-      }
-      return {time: state.time - 1}});
-  }
-
-  timesUp() {
-    this.props.onTurnsEnd();
   }
 
   onSkipClick() {
@@ -40,15 +28,28 @@ class Card extends React.Component {
           this.timesUp();
         }
         return {
-          time: state.time - 5
-        }
+          time: state.time - 5,
+        };
       });
     }
     this.props.onSkipClick();
   }
 
-  render () {
-    return(
+  timesUp() {
+    this.props.onTurnsEnd();
+  }
+
+  tick() {
+    this.setState((state) => {
+      if (state.time <= 1) {
+        this.timesUp();
+      }
+      return { time: state.time - 1 };
+    });
+  }
+
+  render() {
+    return (
       <div>
         <div>
           <p>{this.state.time}</p>
@@ -56,7 +57,7 @@ class Card extends React.Component {
         <div>
           {this.props.word.text}
         </div>
-        <button onClick={() => {this.props.onOkClick();}}>OK</button>
+        <button onClick={() => { this.props.onOkClick(); }}>OK</button>
         <button onClick={this.onSkipClick}>Pas</button>
       </div>
     );
