@@ -22,8 +22,8 @@ class MainMenu extends React.Component {
   render() {
     return (
       <div>
-        <CustomButton handleClick={this.newGameClick} text="Nowa gra" />
-        <CustomButton handleClick={this.settingsClick} text="Ustawienia" />
+        <CustomButton handleClick={this.newGameClick} status="primary" text="Nowa gra" />
+        <CustomButton handleClick={this.settingsClick} status="warning" text="Ustawienia" />
       </div>
     );
   }

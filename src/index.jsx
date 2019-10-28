@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import '../node_modules/nes.css/css/nes.min.css';
+import './styles/global.scss';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

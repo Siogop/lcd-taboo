@@ -32,7 +32,9 @@ class App extends React.Component {
     const { status } = this.state;
     return (
       <div className="App">
-        <h1>LCD Taboo</h1>
+        <div className="nes-container is-rounded is-dark">
+          <p>LCD Taboo</p>
+        </div>
         <div>
           {status === 'menu' && (
           <MainMenu

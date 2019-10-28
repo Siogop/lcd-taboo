@@ -53,7 +53,8 @@ class Card extends React.Component {
   }
 
   render() {
-    const { time, word, onOkClick } = this.props;
+    const { word, onOkClick } = this.props;
+    const { time } = this.state;
     return (
       <div>
         <div>
@@ -62,15 +63,14 @@ class Card extends React.Component {
         <div>
           {word.text}
         </div>
-        <CustomButton handleClick={() => { onOkClick(); }} text="OK" />
-        <CustomButton handleClick={this.onSkipClick} text="Pas" />
+        <CustomButton handleClick={() => { onOkClick(); }} status="success" text="OK" />
+        <CustomButton handleClick={this.onSkipClick} status="error" text="Pas" />
       </div>
     );
   }
 }
 
 Card.propTypes = {
-  time: PropTypes.number.isRequired,
   word: PropTypes.shape({
     text: PropTypes.string,
     guessed: PropTypes.bool,
