@@ -77,11 +77,15 @@ Card.propTypes = {
   word: PropTypes.shape({
     text: PropTypes.string,
     guessed: PropTypes.bool,
-  }).isRequired,
+  }),
   onOkClick: PropTypes.func.isRequired,
   round: PropTypes.number.isRequired,
   onSkipClick: PropTypes.func.isRequired,
   onTurnsEnd: PropTypes.func.isRequired,
+};
+
+Card.defaultProps = {
+  word: {},
 };
 
 export default Card;
