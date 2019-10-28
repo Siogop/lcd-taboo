@@ -41,6 +41,24 @@ function shuffle(oldArray) {
 
   return array;
 }
+function nextWordIndex(state) {
+  let newIndex = -1;
+  for (let i = state.currentIndex + 1; i < state.words.length; i += 1) {
+    if (!state.words[i].guessed) {
+      newIndex = i;
+      break;
+    }
+  }
+  if (newIndex === -1) {
+    for (let i = 0; i <= state.currentIndex; i += 1) {
+      if (!state.words[i].guessed) {
+        newIndex = i;
+        break;
+      }
+    }
+  }
+  return newIndex;
+}
 
 // const wordsArray = ['Frodo', 'Aramis', 'Piotr Ptak', 'Systemy rozproszone'];
 class Game extends React.Component {
@@ -54,22 +72,29 @@ class Game extends React.Component {
       words: getRandom(WordsPackage.test, 4).map((word) => ({
         text: word,
         guessed: false,
+        visited: false,
       })),
       currentIndex: 0,
-      startIndex: 0,
     };
     this.onOkClick = this.onOkClick.bind(this);
     this.onSkipClick = this.onSkipClick.bind(this);
-    this.nextWordIndex = this.nextWordIndex.bind(this);
     this.onTurnsEnd = this.onTurnsEnd.bind(this);
     this.onStartClick = this.onStartClick.bind(this);
   }
 
+  componentDidUpdate() {
+    const { currentIndex, words } = this.state;
+    if (currentIndex === -1) {
+      this.onTurnsEnd();
+    } else if (words[currentIndex].visited) {
+      this.onTurnsEnd();
+    }
+  }
+
   onStartClick() {
-    this.setState((state) => ({
+    this.setState({
       status: 'play',
-      startIndex: state.currentIndex,
-    }));
+    });
   }
 
   onTurnsEnd() {
@@ -77,6 +102,11 @@ class Game extends React.Component {
       const newState = {
         turn: state.turn ? 0 : 1,
         status: 'wait',
+        words: state.words.map((word) => ({
+          text: word.text,
+          guessed: word.guessed,
+          visited: false,
+        })),
       };
       if (state.currentIndex === -1) {
         newState.round = state.round + 1;
@@ -84,10 +114,9 @@ class Game extends React.Component {
         newState.words = shuffle(state.words).map((word) => ({
           text: word.text,
           guessed: false,
+          visited: false,
         }));
         newState.currentIndex = 0;
-      } else {
-        newState.startIndex = state.currentIndex;
       }
       return newState;
     });
@@ -99,6 +128,7 @@ class Game extends React.Component {
         if (i === state.currentIndex) {
           const newWord = word;
           newWord.guessed = true;
+          newWord.visited = true;
           return newWord;
         }
         return word;
@@ -108,37 +138,24 @@ class Game extends React.Component {
       return {
         words,
         score,
-        currentIndex: this.nextWordIndex(state),
+        currentIndex: nextWordIndex(state),
       };
     });
   }
 
   onSkipClick() {
     this.setState((state) => ({
-      currentIndex: this.nextWordIndex(state),
-    }));
-  }
-
-  nextWordIndex(state) {
-    let newIndex = -1;
-    for (let i = state.currentIndex + 1; i < state.words.length; i += 1) {
-      if (!state.words[i].guessed) {
-        newIndex = i;
-        break;
-      }
-    }
-    if (newIndex === -1) {
-      for (let i = 0; i < state.currentIndex; i += 1) {
-        if (!state.words[i].guessed) {
-          newIndex = i;
-          break;
+      words: state.words.map((word, i) => {
+        if (i === state.currentIndex) {
+          const newWord = word;
+          newWord.guessed = word.guessed;
+          newWord.visited = true;
+          return newWord;
         }
-      }
-    }
-    if (newIndex === -1 || newIndex === state.startIndex) {
-      this.onTurnsEnd();
-    }
-    return newIndex;
+        return word;
+      }),
+      currentIndex: nextWordIndex(state),
+    }));
   }
 
   render() {
