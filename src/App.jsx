@@ -1,8 +1,7 @@
 import React from 'react';
-import MainMenu from './components/MainMenu';
-import Settings from './components/Settings';
-import Game from './components/Game';
-import './App.css';
+import MainMenu from './containers/MainMenu';
+import Settings from './containers/Settings';
+import Game from './containers/Game';
 
 class App extends React.Component {
   constructor(props) {
@@ -32,7 +31,9 @@ class App extends React.Component {
     const { status } = this.state;
     return (
       <div className="App">
-        <h1>LCD Taboo</h1>
+        <div className="nes-container is-rounded is-dark">
+          <p>LCD Taboo</p>
+        </div>
         <div>
           {status === 'menu' && (
           <MainMenu
@@ -47,6 +48,7 @@ class App extends React.Component {
           )}
           {status === 'settings' && <Settings />}
         </div>
+        <footer />
       </div>
     );
   }

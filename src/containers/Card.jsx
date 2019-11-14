@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CustomButton from '../CustomButton';
+import CustomButton from '../components/CustomButton/CustomButton';
+import ProgressBar from '../components/ProgressBar/ProgressBar';
+import Tile from '../components/Tile/Tile';
+import Row from '../components/Row/Row';
+
+const MAX_TIMER = 30;
 
 class Card extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 30,
+      time: MAX_TIMER,
     };
     this.timesUp = this.timesUp.bind(this);
     this.onSkipClick = this.onSkipClick.bind(this);
@@ -53,32 +58,34 @@ class Card extends React.Component {
   }
 
   render() {
-    const { time, word, onOkClick } = this.props;
+    const { word, onOkClick } = this.props;
+    const { time } = this.state;
     return (
       <div>
-        <div>
-          <p>{time}</p>
-        </div>
-        <div>
-          {word.text}
-        </div>
-        <CustomButton handleClick={() => { onOkClick(); }} text="OK" />
-        <CustomButton handleClick={this.onSkipClick} text="Pas" />
+        <Tile text={word.text} />
+        <Row>
+          <CustomButton handleClick={() => { onOkClick(); }} status="success" text="OK" />
+          <CustomButton handleClick={this.onSkipClick} status="error" text="Pas" />
+        </Row>
+        <ProgressBar value={time} maxValue={MAX_TIMER} />
       </div>
     );
   }
 }
 
 Card.propTypes = {
-  time: PropTypes.number.isRequired,
   word: PropTypes.shape({
     text: PropTypes.string,
     guessed: PropTypes.bool,
-  }).isRequired,
+  }),
   onOkClick: PropTypes.func.isRequired,
   round: PropTypes.number.isRequired,
   onSkipClick: PropTypes.func.isRequired,
   onTurnsEnd: PropTypes.func.isRequired,
+};
+
+Card.defaultProps = {
+  word: {},
 };
 
 export default Card;

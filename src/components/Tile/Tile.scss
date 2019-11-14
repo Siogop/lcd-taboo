@@ -1,0 +1,8 @@
+.tile, .tile.nes-container, .tile.nes-container.is-rounded {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 10px;
+}
